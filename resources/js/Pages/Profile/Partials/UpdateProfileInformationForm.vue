@@ -94,7 +94,7 @@ const form = useForm({
                 <PrimaryButton
                     :disabled="form.processing"
                     :class="{ 'opacity-50': form.processing }"
-                    class="bg-rose-500 hover:bg-rose-600 text-white dark:bg-rose-600 dark:hover:bg-rose-700 transition-colors"
+                    class="bg-rose-500 hover:bg-rose-600 text-white dark:bg-purple-500 dark:hover:bg-purple-600 transition"
                     >
                     Save
                 </PrimaryButton>

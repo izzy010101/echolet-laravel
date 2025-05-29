@@ -21,7 +21,7 @@ const updatePassword = () => {
 
 <template>
   <section>
-    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 dark:text-white">Update Password</h2>
+    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 dark:text-white ">Update Password</h2>
 
     <form @submit.prevent="updatePassword" class="space-y-6">
       <!-- Current Password -->
@@ -66,9 +66,9 @@ const updatePassword = () => {
       <!-- Submit -->
       <div class="flex justify-left">
         <PrimaryButton
-          :disabled="form.processing"
-          :class="{ 'opacity-25': form.processing }"
-          class="bg-rose-500 hover:bg-rose-600 dark:bg-rose-600 dark:hover:bg-rose-700 text-white"
+        :disabled="form.processing"
+        :class="{ 'opacity-50': form.processing }"
+        class="bg-rose-500 hover:bg-rose-600 text-white dark:bg-purple-500 dark:hover:bg-purple-600 transition"
         >
           Save
         </PrimaryButton>
