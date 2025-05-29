@@ -1,5 +1,6 @@
 <script setup>
-import AppLayout from '@/Components/Layout/AppLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({
   featured: Object,
@@ -9,6 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
+  <Head title="Home" />
   <AppLayout :auth="auth">
     <div class="min-h-screen bg-white transition-colors duration-300">
       <section class="py-16 lg:py-24">

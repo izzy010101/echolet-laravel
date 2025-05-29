@@ -1,5 +1,5 @@
 <script setup>
-import Header from './Header.vue'
+import Header from '@/Components/Header.vue'
 
 const props = defineProps({
   auth: Object
