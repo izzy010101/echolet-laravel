@@ -1,12 +1,11 @@
-<x-mail::message>
-# Introduction
+@component('mail::message')
+    # You're In! 💌
 
-The body of your message.
+    Thanks for subscribing to Echolet Blog.
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+    You’ll now get fresh stories and updates right in your inbox.
 
-Thanks,<br>
-{{ config('app.name') }}
-</x-mail::message>
+    Thanks,<br>
+    Echolet Team
+@endcomponent
+

@@ -1,16 +1,30 @@
 <!--newsletterwelcome.vue-->
 <script setup>
-import {useForm} from '@inertiajs/vue3'
+import {useForm } from '@inertiajs/vue3'
+import { ref } from 'vue'
+
 
 const form = useForm({
     email: ''
 })
 
+const alreadySubscribedMessage = ref('')
+
 function submit() {
+    if (localStorage.getItem('newsletter_subscribed') === form.email) {
+        alreadySubscribedMessage.value = 'You have already subscribed.'
+        return
+    }
+
     form.post(route('newsletter.subscribe'), {
-        onSuccess: () => form.reset()
+        onSuccess: () => {
+            localStorage.setItem('newsletter_subscribed', form.email)
+            form.reset()
+            alreadySubscribedMessage.value = '' // clear any old error
+        }
     })
 }
+
 </script>
 <template>
     <div class="w-full max-w-lg mx-auto p-6 rounded-lg bg-white shadow dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
@@ -28,15 +42,18 @@ function submit() {
 
             <button
                 type="submit"
-                class="w-full px-4 py-2 rounded-md bg-pink-600 hover:bg-pink-700 text-white transition"
+                :disabled="form.processing"
+                class="px-4 py-2 rounded bg-pink-600 text-white hover:bg-pink-700"
             >
                 Subscribe
             </button>
 
-            <p v-if="form.recentlySuccessful" class="text-sm text-green-600 dark:text-green-400">
+            <p v-if="form.recentlySuccessful && !alreadySubscribedMessage" class="text-sm text-green-600 dark:text-green-400">
                 Subscribed successfully!
             </p>
+
         </form>
+
     </div>
 </template>
 

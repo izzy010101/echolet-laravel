@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Mail\WelcomeRegisteredUserMail;
+use Illuminate\Support\Facades\Mail;
 
 class RegisteredUserController extends Controller
 {
@@ -45,6 +47,12 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        if (app()->environment('local')) {
+            Mail::to($user->email)->send(new WelcomeRegisteredUserMail());
+        } else {
+            Mail::to($user->email)->queue(new WelcomeRegisteredUserMail());
+        }
 
         return redirect(route('dashboard', absolute: false));
     }
