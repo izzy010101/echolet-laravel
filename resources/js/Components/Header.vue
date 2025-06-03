@@ -20,7 +20,7 @@ function logout() {
 <template>
   <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-200 dark:bg-gray-900/90 dark:border-gray-800 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-      
+
       <!-- Logo -->
       <Link href="/" class="text-xl font-bold text-gray-900 dark:text-white">
         Echolet
@@ -35,7 +35,7 @@ function logout() {
 
       <!-- Actions -->
       <div class="flex items-center space-x-3">
-        
+
         <!-- Search bar -->
         <input
           type="text"
@@ -50,12 +50,6 @@ function logout() {
           <Moon v-else class="w-5 h-5 text-gray-600 dark:text-gray-300" />
         </button>
 
-        <!-- Subscribe Button -->
-        <button
-          class="px-3 py-1.5 text-sm font-medium bg-purple-600 text-white rounded-md hover:bg-purple-700 transition dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
-        >
-          Subscribe
-        </button>
 
         <!-- Auth Buttons or Dropdown -->
         <div v-if="!user" class="flex items-center space-x-2">
