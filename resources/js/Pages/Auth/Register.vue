@@ -23,7 +23,7 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
-        <div class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-rose-50 flex items-center justify-center p-4">
+        <div class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-rose-50 dark:bg-none dark:bg-white flex items-center justify-center p-4">
             <div class="w-full max-w-md space-y-6">
                 <!-- Title -->
                 <div class="text-center">
