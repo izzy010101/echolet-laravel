@@ -7,12 +7,13 @@ const props = defineProps({
   posts: Array,
   auth: Object
 })
+
 </script>
 
 <template>
   <Head title="Home" />
   <AppLayout :auth="auth">
-    <div class="min-h-screen bg-white transition-colors duration-300">
+      <div class="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <section class="py-16 lg:py-24">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-16">

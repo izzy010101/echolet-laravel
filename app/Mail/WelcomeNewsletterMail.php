@@ -21,7 +21,7 @@ class WelcomeNewsletterMail extends Mailable
     {
         return $this
             ->subject('Thanks for Subscribing to Echolet 💌')
-            ->markdown('emails.newsletter-subscribed');
+            ->markdown('emails.welcome-newsletter');
     }
 }
 

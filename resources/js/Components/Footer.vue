@@ -1,7 +1,11 @@
 <script setup>
 import { BookOpen, Facebook, Twitter, Instagram, Linkedin} from 'lucide-vue-next';
-import {Link} from '@inertiajs/vue3';
+import {Link, usePage } from '@inertiajs/vue3';
 import NewsletterSubscribe from '@/Components/NewsletterSubscribe.vue';
+
+const { props } = usePage()
+const categories = props.categories || []
+
 </script>
 
 <template>
@@ -43,10 +47,11 @@ import NewsletterSubscribe from '@/Components/NewsletterSubscribe.vue';
                 <div>
                     <h3 class="text-sm font-semibold text-black dark:text-white uppercase mb-3">Categories</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-pink-500 dark:hover:text-pink-400">Startups</a></li>
-                        <li><a href="#" class="hover:text-pink-500 dark:hover:text-pink-400">Tech</a></li>
-                        <li><a href="#" class="hover:text-pink-500 dark:hover:text-pink-400">Wellness</a></li>
-                        <li><a href="#" class="hover:text-pink-500 dark:hover:text-pink-400">Leadership</a></li>
+                        <li v-for="category in categories" :key="category.id">
+                            <a href="#" class="hover:text-pink-500 dark:hover:text-pink-400">
+                                {{ category.name }}
+                            </a>
+                        </li>
                     </ul>
                 </div>
 

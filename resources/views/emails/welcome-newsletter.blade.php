@@ -5,7 +5,7 @@
 
     You’ll now get fresh stories and updates right in your inbox.
 
-    Thanks,<br>
+    Thanks,
     Echolet Team
 @endcomponent
 

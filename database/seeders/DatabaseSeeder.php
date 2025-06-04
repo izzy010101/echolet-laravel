@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,14 +11,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory()->create([
-            'name' => 'Demo User',
-            'email' => 'demo@example.com',
-        ]);
-    
+        // safely fetch existing user or create only if not found
+        $user = \App\Models\User::firstOrCreate(
+            ['email' => 'demo@example.com'],
+            ['name' => 'Demo User', 'password' => bcrypt('password')]
+        );
+
+        //  create posts for that user
         \App\Models\Post::factory(10)->create([
-            'user_id' => 1
+            'user_id' => $user->id,
         ]);
+
+        // seed categories
+        $this->call(CategorySeeder::class);
     }
-    
+
 }

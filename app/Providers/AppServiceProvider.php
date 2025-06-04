@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Providers;
-
+use Inertia\Inertia;
+use App\Models\Category;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
     /**
      * Register any application services.
      */
@@ -21,5 +23,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
+
+        Inertia::share([
+            'categories' => fn () => Category::select('id', 'name')->get(),
+        ]);
     }
 }
