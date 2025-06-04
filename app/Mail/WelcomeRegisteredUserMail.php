@@ -37,7 +37,7 @@ class WelcomeRegisteredUserMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.registered-welcome',
+            view: 'emails.registered-welcome',
         );
     }
 

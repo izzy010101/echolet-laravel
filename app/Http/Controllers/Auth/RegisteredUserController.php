@@ -44,9 +44,10 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        Auth::login($user);
+
         event(new Registered($user));
 
-        Auth::login($user);
 
         if (app()->environment('local')) {
             Mail::to($user->email)->send(new WelcomeRegisteredUserMail());
