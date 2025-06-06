@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps({
     posts: {
@@ -21,10 +21,42 @@ const form = useForm({
     category_id: '',
 });
 
+const validationErrors = ref({
+    title: '',
+    content: '',
+    category_id: ''
+});
+
+// Live Validation Watchers
+watch(() => form.title, (value) => {
+    if (value === '') {
+        validationErrors.value.title = '';
+        return;
+    }
+    validationErrors.value.title = value.length < 3 ? 'Title must be at least 3 characters.' : '';
+});
+
+watch(() => form.content, (value) => {
+    validationErrors.value.content = value.length < 10 ? 'Content must be at least 10 characters.' : '';
+});
+
+watch(() => form.category_id, (value) => {
+    validationErrors.value.category_id = value === '' ? 'Please select a category.' : '';
+});
+
 const submit = () => {
     form.post(route('posts.store'), {
         preserveScroll: true,
-        onSuccess: () => form.reset(),
+        onSuccess: () => {
+            form.reset();
+            form.clearErrors();
+            // Reset live validation errors properly
+            validationErrors.value = {
+                title: '',
+                content: '',
+                category_id: ''
+            };
+        },
     });
 };
 </script>
@@ -39,7 +71,6 @@ const submit = () => {
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-
                 <!-- Left side: User Posts -->
                 <div>
                     <h3 class="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100">Your Posts</h3>
@@ -62,6 +93,9 @@ const submit = () => {
                 <!-- Right side: New Post Form -->
                 <div>
                     <h3 class="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100">New Post</h3>
+                    <div v-if="$page.props.flash.success" class="mb-4 text-green-600 dark:text-green-400 font-semibold">
+                        {{ $page.props.flash.success }}
+                    </div>
                     <form @submit.prevent="submit" class="space-y-6 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Title</label>
@@ -70,9 +104,14 @@ const submit = () => {
                                 type="text"
                                 placeholder="Enter post title"
                                 class="w-full px-4 py-2 rounded-lg border dark:bg-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500"
-                                :class="{ 'border-red-500': form.errors.title, 'border-gray-300 dark:border-gray-600': !form.errors.title }"
+                                :class="{
+                                    'border-red-500': validationErrors.title || form.errors.title,
+                                    'border-gray-300 dark:border-gray-600': !validationErrors.title && !form.errors.title
+                                }"
                             />
-                            <div v-if="form.errors.title" class="text-red-500 text-sm mt-1">{{ form.errors.title }}</div>
+                            <div v-if="validationErrors.title || form.errors.title" class="text-red-500 text-sm mt-1">
+                                {{ validationErrors.title || form.errors.title }}
+                            </div>
                         </div>
 
                         <div>

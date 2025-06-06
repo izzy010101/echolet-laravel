@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Post;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,19 +14,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // safely fetch existing user or create only if not found
-        $user = \App\Models\User::firstOrCreate(
+        // Create user
+        $user = User::firstOrCreate(
             ['email' => 'demo@example.com'],
             ['name' => 'Demo User', 'password' => bcrypt('password')]
         );
 
-        //  create posts for that user
-        \App\Models\Post::factory(10)->create([
+        // Create categories first
+        $this->call(CategorySeeder::class);
+
+        // Then create posts (now categories exist!)
+        Post::factory(10)->create([
             'user_id' => $user->id,
         ]);
-
-        // seed categories
-        $this->call(CategorySeeder::class);
     }
 
 }

@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -20,12 +22,12 @@ class PostFactory extends Factory
         $title = $this->faker->sentence(6);
 
         return [
-            'user_id' => 1,
-            'title' => $title,
-            'slug' => Str::slug($title) . '-' . Str::random(5),
-            'excerpt' => $this->faker->paragraph(2),
-            'body' => $this->faker->paragraphs(5, true),
+            'title' => $this->faker->sentence(),
+            'slug' => $this->faker->slug(),
+            'excerpt' => $this->faker->paragraph(),
+            'body' => $this->faker->paragraphs(3, true),
             'published_at' => now(),
+            'category_id' => Category::query()->inRandomOrder()->value('id') ?? 1,
         ];
     }
 }
