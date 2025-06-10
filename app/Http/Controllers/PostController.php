@@ -16,7 +16,6 @@ class PostController extends Controller
         return Inertia::render('Home', $this->sharedProps([
             'featured' => $posts->first(),
             'posts' => $posts->skip(1)->values(),
-            'auth' => auth()->user(),
         ]));
     }
 
@@ -73,9 +72,8 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
-        return Inertia::render('Posts/Show', [
+        return Inertia::render('Posts/Show', $this->sharedProps([
             'post' => $post,
-            'auth' => auth()->user(),
-        ]);
+        ]));
     }
 }

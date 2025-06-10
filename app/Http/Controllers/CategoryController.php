@@ -12,7 +12,7 @@ class CategoryController extends Controller
     {
         return Inertia::render('Categories/Index', [
             'categories' => Category::with('posts')->select('id', 'name', 'image', 'icon')->get(),
-            'auth' => auth()->user(),
+            'auth' => ['user' => auth()->user()],
         ]);
     }
 

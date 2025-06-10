@@ -85,7 +85,6 @@ function selectCategory(index) {
 </template>
 
 <style scoped>
-/* Optional: smooth scroll for categories list */
 nav {
     scroll-behavior: smooth;
 }
