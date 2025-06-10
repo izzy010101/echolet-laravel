@@ -1,9 +1,11 @@
 <script setup>
 import Header from '@/Components/Header.vue'
-import FooterComponent from '@/Components/Footer.vue'
+import Footer from '@/Components/Footer.vue'
+import { usePage } from '@inertiajs/vue3'
 
 const props = defineProps({
-  auth: Object
+    auth: Object,
+    categories: Array,
 })
 </script>
 
@@ -13,7 +15,7 @@ const props = defineProps({
         <main>
             <slot />
         </main>
-        <FooterComponent />
+        <Footer :categories="props.categories" />
     </div>
 </template>
 

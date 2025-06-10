@@ -11,7 +11,7 @@ import Footer from '../Components/Footer.vue'
             <slot />
         </main>
 
-        <Footer />
+        <Footer :categories="$page.props.categories" />
     </div>
 </template>
 

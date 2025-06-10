@@ -42,7 +42,7 @@ function logout() {
                       class="text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition">
                     Blog
                 </Link>
-                <Link href="/categories"
+                <Link :href="route('categories.index')"
                       class="text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition">
                     Categories
                 </Link>

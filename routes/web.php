@@ -6,13 +6,24 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\CategoryController;
+
 
 
 Route::get('/', [PostController::class, 'index'])->name('home');
+
+//categories
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
+
+
+
+
+
 Route::controller(PageController::class)->group(function () {
     Route::get('/blog', 'blog')->name('blog');
-    Route::get('/categories', 'categories')->name('categories');
     Route::get('/contact', 'contact')->name('contact');
+
 });
 
 Route::post('/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');

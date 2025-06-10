@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Category;
-
+use App\Models\Post;
 use Inertia\Inertia;
 
 class PageController extends Controller
@@ -19,10 +19,6 @@ class PageController extends Controller
     public function blog()
     {
         return Inertia::render('Blog');
-    }
-    public function categories()
-    {
-        return Inertia::render('Categories');
     }
 
     public function contact()
