@@ -7,8 +7,6 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-
-
 class PostController extends Controller
 {
     public function index()
@@ -37,7 +35,7 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $post = \App\Models\Post::create([
+        $post = Post::create([
             'title' => $validated['title'],
             'slug' => Str::slug($validated['title']),
             'excerpt' => Str::limit(strip_tags($validated['content']), 100),
@@ -48,5 +46,20 @@ class PostController extends Controller
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Post created!');
+    }
+
+    public function update(Request $request, Post $post) {
+
+        $validated = $request->validate([
+            'title' => 'required|string|min:3|max:255',
+            'body' => 'required|string|min:10',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $post->update($validated);
+
+
+        return redirect()->back()->with('success', 'Post updated successfully.');
+
     }
 }

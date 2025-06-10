@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
+import EditPostModal from '@/Components/EditPostModal.vue';
 
 const props = defineProps({
     posts: {
@@ -59,6 +60,18 @@ const submit = () => {
     });
 };
 
+
+const showEditModal = ref(false);
+const postBeingEdited = ref(null);
+
+const startEditing = (post) => {
+    postBeingEdited.value = post;
+    showEditModal.value = true;
+};
+
+const refreshAfterEdit = () => {
+    router.reload({ preserveScroll: true }); // SPA-friendly reload
+};
 const deletePost = (id) => {
     if (confirm('Are you sure you want to delete this post?')) {
         router.delete(route('posts.destroy', id), {
@@ -105,7 +118,7 @@ const deletePost = (id) => {
                                     Category: {{ post.category?.name || 'Uncategorized' }}
                                 </span>
                                 <div class="space-x-2">
-                                    <button class="text-sm text-blue-600 hover:underline">Edit</button>
+                                    <button @click="startEditing(post)" class="text-sm text-blue-600 hover:underline">Edit</button>
                                     <button @click="deletePost(post.id)" class="text-sm text-red-600 hover:underline">
                                         Delete
                                     </button>
@@ -187,4 +200,11 @@ const deletePost = (id) => {
             </div>
         </div>
     </AuthenticatedLayout>
+    <EditPostModal
+        v-if="showEditModal"
+        :post="postBeingEdited"
+        :categories="props.categories"
+        @close="showEditModal = false"
+        @updated="refreshAfterEdit"
+    />
 </template>
