@@ -22,8 +22,6 @@ const submit = () => {
 <template>
   <GuestLayout>
     <Head title="Forgot Password" />
-
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 dark:from-gray-900 dark:to-gray-950 p-6 transition-colors">
       <div class="w-full max-w-md bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-3xl shadow-xl border border-white/20 dark:border-gray-700 p-8 space-y-6">
 
         <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white">
@@ -66,6 +64,5 @@ const submit = () => {
           </PrimaryButton>
         </form>
       </div>
-    </div>
   </GuestLayout>
 </template>

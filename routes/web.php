@@ -5,12 +5,15 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
-use Inertia\Inertia;
-
-
+use App\Http\Controllers\PageController;
 
 
 Route::get('/', [PostController::class, 'index'])->name('home');
+Route::controller(PageController::class)->group(function () {
+    Route::get('/blog', 'blog')->name('blog');
+    Route::get('/categories', 'categories')->name('categories');
+    Route::get('/contact', 'contact')->name('contact');
+});
 
 Route::post('/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
@@ -27,7 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
     Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
-
 
 });
 

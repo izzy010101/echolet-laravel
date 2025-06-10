@@ -8,11 +8,12 @@ const props = defineProps({
 </script>
 
 <template>
-  <div>
-    <Header :auth="auth" />
-    <main>
-      <slot />
-    </main>
-      <FooterComponent />
-  </div>
+    <div class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+        <Header :auth="auth" />
+        <main>
+            <slot />
+        </main>
+        <FooterComponent />
+    </div>
 </template>
+

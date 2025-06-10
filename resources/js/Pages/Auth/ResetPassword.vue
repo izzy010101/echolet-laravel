@@ -31,8 +31,6 @@ const submit = () => {
         <Head title="Reset Password"/>
 
         <div
-            class="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 via-purple-50 to-rose-50 dark:bg-none dark:bg-white p-6 transition-colors">
-            <div
                 class="w-full max-w-md bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8 space-y-6">
                 <!-- Icon & Heading -->
                 <div class="text-center">
@@ -100,7 +98,6 @@ const submit = () => {
                     </PrimaryButton>
                 </form>
             </div>
-        </div>
     </GuestLayout>
 </template>
 

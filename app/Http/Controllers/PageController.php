@@ -16,13 +16,18 @@ class PageController extends Controller
             'categories' => $categories,
         ]);
     }
-    public function about()
+    public function blog()
     {
-        return Inertia::render('About');
+        return Inertia::render('Blog');
+    }
+    public function categories()
+    {
+        return Inertia::render('Categories');
     }
 
     public function contact()
     {
         return Inertia::render('Contact');
     }
+
 }

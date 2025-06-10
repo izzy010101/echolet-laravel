@@ -45,8 +45,6 @@ const submit = () => {
 <template>
     <GuestLayout>
         <Head title="Register" />
-
-        <div class="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-gray-900 transition-colors duration-300">
             <div class="w-full max-w-md space-y-6">
                 <!-- Title -->
                 <div class="text-center">
@@ -151,7 +149,6 @@ const submit = () => {
                     </p>
                 </div>
             </div>
-        </div>
     </GuestLayout>
 </template>
 

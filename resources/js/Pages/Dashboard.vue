@@ -80,13 +80,15 @@ const refreshAfterEdit = () => {
         localSuccessMessage.value = '';
     }, 3000);
 };
+
+//adding swal pop up to make sure user wants to delete the post
 const deletePost = (id) => {
     Swal.fire({
         title: 'Are you sure?',
         text: 'Do you want to delete this blog post?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#e3342f', // red
+        confirmButtonColor: '#e3342f',
         cancelButtonColor: '#6c757d',
         confirmButtonText: 'Yes, delete it!',
         background: document.documentElement.classList.contains('dark') ? '#1f2937' : '#fff',
@@ -133,7 +135,6 @@ const deletePost = (id) => {
 
 
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-
                 <!-- Left side: User Posts -->
                 <div>
                     <h3 class="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100">Your Posts</h3>
