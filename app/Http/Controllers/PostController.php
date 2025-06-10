@@ -55,11 +55,17 @@ class PostController extends Controller
             'body' => 'required|string|min:10',
             'category_id' => 'required|exists:categories,id',
         ]);
-
+        $validated['excerpt'] = Str::limit(strip_tags($validated['body']), 50);
         $post->update($validated);
 
-
         return redirect()->back()->with('success', 'Post updated successfully.');
+    }
 
+    public function destroy(Post $post)
+    {
+        // Optional: restrict to the owner
+        $post->delete();
+
+        return redirect()->back();
     }
 }

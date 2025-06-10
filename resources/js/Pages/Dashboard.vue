@@ -3,6 +3,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import EditPostModal from '@/Components/EditPostModal.vue';
+import Swal from 'sweetalert2';
+
 
 const props = defineProps({
     posts: {
@@ -63,22 +65,47 @@ const submit = () => {
 
 const showEditModal = ref(false);
 const postBeingEdited = ref(null);
-
+const localSuccessMessage = ref('');
 const startEditing = (post) => {
     postBeingEdited.value = post;
     showEditModal.value = true;
 };
 
 const refreshAfterEdit = () => {
-    router.reload({ preserveScroll: true }); // SPA-friendly reload
+    localSuccessMessage.value = 'Post updated successfully.';
+
+    router.reload({ preserveScroll: true });
+
+    setTimeout(() => {
+        localSuccessMessage.value = '';
+    }, 3000);
 };
 const deletePost = (id) => {
-    if (confirm('Are you sure you want to delete this post?')) {
-        router.delete(route('posts.destroy', id), {
-            preserveScroll: true,
-        });
-    }
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to delete this blog post?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e3342f', // red
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it!',
+        background: document.documentElement.classList.contains('dark') ? '#1f2937' : '#fff',
+        color: document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#111',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(route('posts.destroy', id), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    localSuccessMessage.value = 'Post deleted successfully.';
+                    setTimeout(() => {
+                        localSuccessMessage.value = '';
+                    }, 3000);
+                },
+            });
+        }
+    });
 };
+
 </script>
 
 <template>
@@ -90,7 +117,23 @@ const deletePost = (id) => {
         </template>
 
         <div class="py-12">
+            <!-- Flash message from backend (post created) -->
+            <div v-if="$page.props.flash.success" class="mb-6">
+                <div class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 px-4 py-2 rounded-lg shadow font-medium">
+                    {{ $page.props.flash.success }}
+                </div>
+            </div>
+
+            <!-- Local success message (post updated) -->
+            <div v-if="localSuccessMessage" class="mb-6">
+                <div class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 px-4 py-2 rounded-lg shadow font-medium">
+                    {{ localSuccessMessage }}
+                </div>
+            </div>
+
+
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+
                 <!-- Left side: User Posts -->
                 <div>
                     <h3 class="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100">Your Posts</h3>
@@ -131,9 +174,6 @@ const deletePost = (id) => {
                 <!-- Right side: New Post Form -->
                 <div>
                     <h3 class="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100">New Post</h3>
-                    <div v-if="$page.props.flash.success" class="mb-4 text-green-600 dark:text-green-400 font-semibold">
-                        {{ $page.props.flash.success }}
-                    </div>
                     <form @submit.prevent="submit" class="space-y-6 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Title</label>
