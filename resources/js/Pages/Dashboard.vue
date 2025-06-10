@@ -81,8 +81,6 @@ const deletePost = (id) => {
                 <!-- Left side: User Posts -->
                 <div>
                     <h3 class="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100">Your Posts</h3>
-                    <div v-if="props.posts.length === 0" class="text-gray-500 dark:text-gray-400 italic">No posts yet.
-                    </div>
                     <ul class="space-y-4">
                         <li
                             v-for="post in props.posts"
@@ -90,10 +88,18 @@ const deletePost = (id) => {
                             class="p-4 border rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 shadow"
                         >
                             <h4 class="font-semibold text-lg">{{ post.title }}</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-300">
-                                {{ post.excerpt ?? (post.body?.slice(0, 100) + '...') ?? 'No content available.' }}
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                Posted on {{ new Date(post.created_at).toLocaleDateString() }}
                             </p>
-
+                            <p class="text-sm text-gray-600 dark:text-gray-300">
+                                {{ post.excerpt ?? (post.content?.slice(0, 50) + '...') ?? 'No content available.' }}
+                            </p>
+                            <div v-if="posts.length === 0" class="text-gray-500 dark:text-gray-400 mt-4">
+                                You haven’t posted anything yet. Start by creating your first post!
+                            </div>
+                            <p class="text-xs italic text-gray-400 truncate">
+                                Slug: {{ post.slug }}
+                            </p>
                             <div class="flex items-center justify-between mt-2">
                                 <span class="text-xs text-purple-500">
                                     Category: {{ post.category?.name || 'Uncategorized' }}
