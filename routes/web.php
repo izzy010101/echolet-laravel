@@ -16,6 +16,8 @@ Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
 
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+
 
 
 

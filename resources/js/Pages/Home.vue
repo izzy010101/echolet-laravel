@@ -1,6 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
   featured: Object,
@@ -61,9 +61,10 @@ const props = defineProps({
                             <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">
                                 Published: {{ new Date(post.published_at).toLocaleDateString() }}
                             </p>
-                            <button class="mt-auto self-start text-sm text-blue-600 hover:underline">
-                                Read more →
-                            </button>
+                            <Link :href="route('posts.show', post.id)"
+                                  class="mt-auto self-start text-sm text-blue-600 hover:underline">
+                                Read more->
+                            </Link>
 
                         </div>
                     </div>

@@ -68,4 +68,14 @@ class PostController extends Controller
 
         return redirect()->back();
     }
+
+    public function show($id)
+    {
+        $post = Post::findOrFail($id);
+
+        return Inertia::render('Posts/Show', [
+            'post' => $post,
+            'auth' => auth()->user(),
+        ]);
+    }
 }

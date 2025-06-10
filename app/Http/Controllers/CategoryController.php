@@ -11,10 +11,11 @@ class CategoryController extends Controller
     public function index()
     {
         return Inertia::render('Categories/Index', [
-            'categories' => Category::all(), ///cat model
+            'categories' => Category::with('posts')->select('id', 'name', 'image', 'icon')->get(),
             'auth' => auth()->user(),
         ]);
     }
+
 
     public function show($id)
     {

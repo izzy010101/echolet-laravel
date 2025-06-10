@@ -10,6 +10,12 @@ use App\Models\Post;
 class Category extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'image',
+        'icon',
+        'user_id',
+    ];
 
     public function posts()
     {
