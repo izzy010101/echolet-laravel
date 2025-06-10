@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 
 const props = defineProps({
@@ -50,7 +50,6 @@ const submit = () => {
         onSuccess: () => {
             form.reset();
             form.clearErrors();
-            // Reset live validation errors properly
             validationErrors.value = {
                 title: '',
                 content: '',
@@ -59,10 +58,18 @@ const submit = () => {
         },
     });
 };
+
+const deletePost = (id) => {
+    if (confirm('Are you sure you want to delete this post?')) {
+        router.delete(route('posts.destroy', id), {
+            preserveScroll: true,
+        });
+    }
+};
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Dashboard"/>
 
     <AuthenticatedLayout :auth="props.auth">
         <template #header>
@@ -74,16 +81,28 @@ const submit = () => {
                 <!-- Left side: User Posts -->
                 <div>
                     <h3 class="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100">Your Posts</h3>
-                    <div v-if="props.posts.length === 0" class="text-gray-500 dark:text-gray-400 italic">No posts yet.</div>
+                    <div v-if="props.posts.length === 0" class="text-gray-500 dark:text-gray-400 italic">No posts yet.
+                    </div>
                     <ul class="space-y-4">
-                        <li v-for="post in props.posts" :key="post.id" class="p-4 border rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 shadow">
+                        <li
+                            v-for="post in props.posts"
+                            :key="post.id"
+                            class="p-4 border rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 shadow"
+                        >
                             <h4 class="font-semibold text-lg">{{ post.title }}</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-300">{{ post.content }}</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">
+                                {{ post.excerpt ?? (post.body?.slice(0, 100) + '...') ?? 'No content available.' }}
+                            </p>
+
                             <div class="flex items-center justify-between mt-2">
-                                <span class="text-xs text-purple-500">Category: {{ post.category?.name || 'Uncategorized' }}</span>
+                                <span class="text-xs text-purple-500">
+                                    Category: {{ post.category?.name || 'Uncategorized' }}
+                                </span>
                                 <div class="space-x-2">
                                     <button class="text-sm text-blue-600 hover:underline">Edit</button>
-                                    <button class="text-sm text-red-600 hover:underline">Delete</button>
+                                    <button @click="deletePost(post.id)" class="text-sm text-red-600 hover:underline">
+                                        Delete
+                                    </button>
                                 </div>
                             </div>
                         </li>
@@ -115,7 +134,8 @@ const submit = () => {
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Content</label>
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Content</label>
                             <textarea
                                 v-model="form.content"
                                 rows="4"
@@ -123,20 +143,29 @@ const submit = () => {
                                 class="w-full px-4 py-2 rounded-lg border dark:bg-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500"
                                 :class="{ 'border-red-500': form.errors.content, 'border-gray-300 dark:border-gray-600': !form.errors.content }"
                             ></textarea>
-                            <div v-if="form.errors.content" class="text-red-500 text-sm mt-1">{{ form.errors.content }}</div>
+                            <div v-if="form.errors.content" class="text-red-500 text-sm mt-1">{{
+                                    form.errors.content
+                                }}
+                            </div>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Category</label>
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Category</label>
                             <select
                                 v-model="form.category_id"
                                 class="w-full px-4 py-2 rounded-lg border dark:bg-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500"
                                 :class="{ 'border-red-500': form.errors.category_id, 'border-gray-300 dark:border-gray-600': !form.errors.category_id }"
                             >
                                 <option value="">Select a category</option>
-                                <option v-for="cat in props.categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                                <option v-for="cat in props.categories" :key="cat.id" :value="cat.id">{{
+                                        cat.name
+                                    }}
+                                </option>
                             </select>
-                            <div v-if="form.errors.category_id" class="text-red-500 text-sm mt-1">{{ form.errors.category_id }}</div>
+                            <div v-if="form.errors.category_id" class="text-red-500 text-sm mt-1">
+                                {{ form.errors.category_id }}
+                            </div>
                         </div>
 
                         <button
