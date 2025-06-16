@@ -1,14 +1,23 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import {Head, Link, router } from '@inertiajs/vue3'
+import Header from '@/Components/Header.vue'
+import Footer from '@/Components/Footer.vue'
+
 
 defineProps({
+    auth: Object,
     posts: Array,
     categories: Array,
+    searchQuery: String,
+    selectedCategory: String
 })
 </script>
 
 <template>
+    <Head title="Blog" />
+    <Header :auth="auth" />
     <div class="min-h-screen bg-gradient-to-b from-pink-50 to-white dark:from-gray-950 dark:to-gray-900 py-16 px-6">
+
         <div class="max-w-7xl mx-auto">
 
             <!-- Hero -->
@@ -17,19 +26,39 @@ defineProps({
                 <p class="text-gray-600 dark:text-gray-400 mt-2">Dive into articles from all categories</p>
             </div>
 
+
+
             <!-- Categories -->
             <div class="flex flex-wrap gap-3 justify-center mb-12">
-        <span
-            v-for="category in categories"
-            :key="category.id"
-            class="px-4 py-1.5 bg-white dark:bg-gray-800 text-sm rounded-full shadow text-gray-800 dark:text-white border border-gray-200 dark:border-gray-700"
-        >
-          {{ category.name }}
-        </span>
+                <Link
+                    :href="route('blog.index')"
+                    :class="[
+                    'px-4 py-1.5 rounded-full border text-sm transition',
+                    !selectedCategory
+                      ? 'bg-rose-500 text-white border-rose-500'
+                      : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ]"
+                >
+                    All
+                </Link>
+                <Link
+                    v-for="category in categories"
+                    :key="category.id"
+                    :href="route('blog.index', { category: category.name })"
+                    :class="[
+                      'px-4 py-1.5 rounded-full border text-sm transition',
+                      selectedCategory === category.name
+                        ? 'bg-rose-500 text-white border-rose-500'
+                        : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    ]"
+                                >
+                    {{ category.name }}
+                </Link>
             </div>
 
+
             <!-- Posts Grid -->
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                 <div
                     v-for="post in posts"
                     :key="post.id"
@@ -47,5 +76,6 @@ defineProps({
                 </div>
             </div>
         </div>
+        <Footer :categories="categories" />
     </div>
 </template>
