@@ -39,9 +39,12 @@ const props = defineProps({
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">
                                     Published: {{ new Date(featured.published_at).toLocaleDateString() }}
                                 </p>
-                                <button class="inline-flex items-center px-5 py-2.5 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition">
+                                <Link
+                                    :href="route('posts.show', featured.id)"
+                                    class="inline-flex items-center px-5 py-2.5 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition"
+                                >
                                     Read Full Story
-                                </button>
+                                </Link>
                             </div>
                             <div>
                                 <img :src="featured.image ?? '/images/sample.jpg'" alt="Featured" class="w-full h-auto object-cover rounded-xl shadow" />

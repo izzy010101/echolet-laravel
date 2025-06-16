@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BlogController;
 
 
 
@@ -18,12 +19,12 @@ Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categ
 
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
-
+//blog
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 
 
 
 Route::controller(PageController::class)->group(function () {
-    Route::get('/blog', 'blog')->name('blog');
     Route::get('/contact', 'contact')->name('contact');
 
 });

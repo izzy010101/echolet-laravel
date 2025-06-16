@@ -6,18 +6,23 @@ use App\Models\Post;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\Category;
 
 class PostController extends Controller
 {
     public function index()
     {
         $posts = Post::latest('published_at')->take(10)->get();
+        $categories = Category::select('id', 'name')->get();
 
-        return Inertia::render('Home', $this->sharedProps([
+        return Inertia::render('Home', [
             'featured' => $posts->first(),
             'posts' => $posts->skip(1)->values(),
-        ]));
+            'categories' => $categories,
+            'auth' => ['user' => auth()->user()],
+        ]);
     }
+
 
     private function sharedProps(array $props): array
     {
