@@ -10,15 +10,28 @@ use App\Models\Category;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::latest('published_at')->take(10)->get();
+        $query = $request->input('q');
+
+        $postsQuery = Post::with('category')->latest('published_at');
+
+        if ($query) {
+            $postsQuery->where(function ($q2) use ($query) {
+                $q2->where('title', 'like', "%{$query}%")
+                    ->orWhere('excerpt', 'like', "%{$query}%")
+                    ->orWhereHas('category', fn($cat) => $cat->where('name', 'like', "%{$query}%"));
+            });
+        }
+
+        $posts = $postsQuery->take(10)->get();
         $categories = Category::select('id', 'name')->get();
 
         return Inertia::render('Home', [
             'featured' => $posts->first(),
             'posts' => $posts->skip(1)->values(),
             'categories' => $categories,
+            'searchQuery' => $query,
             'auth' => ['user' => auth()->user()],
         ]);
     }

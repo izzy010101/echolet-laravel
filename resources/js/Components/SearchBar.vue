@@ -1,12 +1,25 @@
 <script setup>
 import { ref } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { router, usePage } from '@inertiajs/vue3'
 
 const search = ref('')
+const page = usePage()
 
 function submitSearch() {
-    if (search.value.trim()) {
-        router.get('/search', { q: search.value })
+    const path = page.url
+    const query = search.value.trim()
+
+    if (!query) return
+
+    if (path.startsWith('/dashboard')) {
+        router.get('/dashboard', { q: query })
+    } else if (path.startsWith('/categories')) {
+        router.get('/categories', { q: query })
+    } else if (path.startsWith('/blog')) {
+        router.get('/blog', { q: query })
+    } else {
+        // Default: home page → search blog posts
+        router.get('/', { q: query })
     }
 }
 </script>
