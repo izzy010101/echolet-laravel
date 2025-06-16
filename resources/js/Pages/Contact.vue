@@ -2,13 +2,15 @@
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Head } from '@inertiajs/vue3'
 
-defineProps({ auth: Object })
+defineProps({
+    auth: Object
+})
 </script>
-
 
 <template>
     <Head title="Contact" />
-    <AppLayout :auth="auth">
+    <!-- Pass page flag to AppLayout so it knows not to render search bar -->
+    <AppLayout :auth="auth" page="contact">
         <div class="max-w-7xl mx-auto px-6 py-16 md:flex md:justify-between md:items-start gap-12">
 
             <!-- Left Side - Title -->
@@ -79,7 +81,3 @@ defineProps({ auth: Object })
         </div>
     </AppLayout>
 </template>
-
-
-
-

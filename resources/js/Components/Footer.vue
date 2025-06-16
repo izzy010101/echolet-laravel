@@ -1,11 +1,14 @@
 <script setup>
-import { BookOpen, Facebook, Twitter, Instagram, Linkedin} from 'lucide-vue-next';
-import {Link, usePage } from '@inertiajs/vue3';
-import NewsletterSubscribe from '@/Components/NewsletterSubscribe.vue';
+import { BookOpen, Facebook, Twitter, Instagram, Linkedin } from 'lucide-vue-next'
+import { Link } from '@inertiajs/vue3'
+import NewsletterSubscribe from '@/Components/NewsletterSubscribe.vue'
 
-const { props } = usePage()
-const categories = props.categories || []
-
+defineProps({
+    categories: {
+        type: Array,
+        default: () => []
+    }
+})
 </script>
 
 <template>
@@ -14,7 +17,6 @@ const categories = props.categories || []
 
             <!-- Main Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-
                 <!-- Brand -->
                 <div>
                     <div class="flex items-center space-x-2 mb-2">
@@ -37,7 +39,7 @@ const categories = props.categories || []
                     <h3 class="text-sm font-semibold text-black dark:text-white uppercase mb-3">Explore</h3>
                     <ul class="space-y-2 text-sm">
                         <li><Link href="/" class="hover:text-pink-500 dark:hover:text-pink-400">Home</Link></li>
-                        <li><Link href="/topics" class="hover:text-pink-500 dark:hover:text-pink-400">Topics</Link></li>
+                        <li><Link href="/blog" class="hover:text-pink-500 dark:hover:text-pink-400">Topics</Link></li>
                         <li><Link href="/about" class="hover:text-pink-500 dark:hover:text-pink-400">About</Link></li>
                         <li><Link href="/contact" class="hover:text-pink-500 dark:hover:text-pink-400">Contact</Link></li>
                     </ul>
@@ -47,6 +49,7 @@ const categories = props.categories || []
                 <div>
                     <h3 class="text-sm font-semibold text-black dark:text-white uppercase mb-3">Categories</h3>
                     <ul class="space-y-1">
+                        <li v-if="categories.length === 0" class="text-sm italic text-gray-400">No categories available.</li>
                         <li v-for="category in categories" :key="category.id">
                             <Link :href="route('categories.show', category.id)" class="hover:text-pink-500 dark:hover:text-pink-400">
                                 {{ category.name }}
@@ -63,7 +66,6 @@ const categories = props.categories || []
                         <NewsletterSubscribe />
                     </div>
                 </div>
-
             </div>
 
             <!-- Separator -->
@@ -78,5 +80,3 @@ const categories = props.categories || []
         </div>
     </footer>
 </template>
-
-

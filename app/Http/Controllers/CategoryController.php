@@ -3,28 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = $request->input('q');
+
+        $categories = Category::with('posts')->get(); // or filtered logic
+
         return Inertia::render('Categories/Index', [
-            'categories' => Category::with('posts')->select('id', 'name', 'image', 'icon')->get(),
-            'auth' => ['user' => auth()->user()],
+            'auth' => auth()->user(),
+            'categories' => $categories,
+            'searchQuery' => $query,
+            'allCategories' => Category::all(), // for left-side nav
+            'footerCategories' => Category::all(),
         ]);
     }
-
 
     public function show($id)
     {
         $category = Category::with('posts')->findOrFail($id);
 
         return Inertia::render('Categories/Show', [
+            'auth' => auth()->user(),
             'category' => $category,
             'posts' => $category->posts,
-            'auth' => auth()->user(),
             'categories' => Category::all(),
+            'footerCategories' => Category::all(),
         ]);
     }
 }

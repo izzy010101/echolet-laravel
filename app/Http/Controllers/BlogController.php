@@ -33,6 +33,7 @@ class BlogController extends Controller
             'categories' => Category::all(),
             'searchQuery' => $query,
             'selectedCategory' => $category,
+            'footerCategories' => Category::all(),
         ]);
     }
 }

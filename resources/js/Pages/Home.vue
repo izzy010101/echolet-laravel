@@ -1,6 +1,8 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Head, Link } from '@inertiajs/vue3';
+import NoResults from "@/Components/NoResults.vue";
+
 
 const props = defineProps({
   featured: Object,
@@ -65,15 +67,16 @@ const props = defineProps({
                                 Published: {{ new Date(post.published_at).toLocaleDateString() }}
                             </p>
                             <Link :href="route('posts.show', post.id)"
-                                  class="mt-auto self-start text-sm text-blue-600 hover:underline">
-                                Read more->
+                                  class="mt-auto self-start text-sm text-rose-500 hover:underline dark:text-rose-400">
+                                Read more →
                             </Link>
-
                         </div>
                     </div>
-
                 </div>
+<!--                if no resulst-->
+                <NoResults v-if="posts.length === 0" />
             </section>
+
     </AppLayout>
 </template>
 

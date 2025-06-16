@@ -9,7 +9,10 @@ class PageController extends Controller
 
     public function contact()
     {
-        return Inertia::render('Contact');
+        return Inertia::render('Contact', [
+            'auth' => auth()->user(),
+            'footerCategories' => CategoryController::all(), // add this
+        ]);
     }
 
 }

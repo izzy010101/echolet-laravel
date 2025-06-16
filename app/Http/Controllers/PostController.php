@@ -33,6 +33,7 @@ class PostController extends Controller
             'categories' => $categories,
             'searchQuery' => $query,
             'auth' => ['user' => auth()->user()],
+            'footerCategories' => Category::all(),
         ]);
     }
 

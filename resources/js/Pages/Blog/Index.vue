@@ -1,8 +1,6 @@
 <script setup>
-import {Head, Link, router } from '@inertiajs/vue3'
-import Header from '@/Components/Header.vue'
-import Footer from '@/Components/Footer.vue'
-
+import AppLayout from '@/Layouts/AppLayout.vue'
+import { Head, Link } from '@inertiajs/vue3'
 
 defineProps({
     auth: Object,
@@ -15,10 +13,8 @@ defineProps({
 
 <template>
     <Head title="Blog" />
-    <Header :auth="auth" />
-    <div class="min-h-screen bg-gradient-to-b from-pink-50 to-white dark:from-gray-950 dark:to-gray-900 py-16 px-6">
-
-        <div class="max-w-7xl mx-auto">
+    <AppLayout :auth="auth" :categories="categories">
+        <div class="max-w-7xl mx-auto py-16 px-6">
 
             <!-- Hero -->
             <div class="text-center mb-12">
@@ -26,18 +22,16 @@ defineProps({
                 <p class="text-gray-600 dark:text-gray-400 mt-2">Dive into articles from all categories</p>
             </div>
 
-
-
             <!-- Categories -->
             <div class="flex flex-wrap gap-3 justify-center mb-12">
                 <Link
                     :href="route('blog.index')"
                     :class="[
-                    'px-4 py-1.5 rounded-full border text-sm transition',
-                    !selectedCategory
-                      ? 'bg-rose-500 text-white border-rose-500'
-                      : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700'
-                  ]"
+            'px-4 py-1.5 rounded-full border text-sm transition',
+            !selectedCategory
+              ? 'bg-rose-500 text-white border-rose-500'
+              : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700'
+          ]"
                 >
                     All
                 </Link>
@@ -46,16 +40,15 @@ defineProps({
                     :key="category.id"
                     :href="route('blog.index', { category: category.name })"
                     :class="[
-                      'px-4 py-1.5 rounded-full border text-sm transition',
-                      selectedCategory === category.name
-                        ? 'bg-rose-500 text-white border-rose-500'
-                        : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700'
-                    ]"
-                                >
+            'px-4 py-1.5 rounded-full border text-sm transition',
+            selectedCategory === category.name
+              ? 'bg-rose-500 text-white border-rose-500'
+              : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700'
+          ]"
+                >
                     {{ category.name }}
                 </Link>
             </div>
-
 
             <!-- Posts Grid -->
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
@@ -76,6 +69,5 @@ defineProps({
                 </div>
             </div>
         </div>
-        <Footer :categories="categories" />
-    </div>
+    </AppLayout>
 </template>

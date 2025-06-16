@@ -7,7 +7,7 @@ import Dropdown from '@/Components/Dropdown.vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
 import SearchBar from '@/Components/SearchBar.vue'
 
-const { props } = usePage()
+const { props, url } = usePage()
 const user = props.auth?.user
 const search = ref('')
 
@@ -73,7 +73,7 @@ function logout() {
 
             <!-- Desktop Actions -->
             <div class="hidden md:flex items-center space-x-3">
-                <SearchBar />
+                <SearchBar v-if="url !== '/contact'" />
 
 
                 <button @click="toggleDarkMode" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition"

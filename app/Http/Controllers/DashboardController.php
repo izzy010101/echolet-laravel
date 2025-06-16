@@ -9,15 +9,29 @@ use App\Models\Post;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::where('user_id', Auth::id())
+        $query = $request->input('q');
+
+        $posts = \App\Models\Post::where('user_id', auth()->id())
             ->with('category')
+            ->when($query, function ($q) use ($query) {
+                $q->where(function ($subquery) use ($query) {
+                    $subquery
+                        ->where('title', 'like', '%' . $query . '%')
+                        ->orWhere('excerpt', 'like', '%' . $query . '%'); // Remove ->orWhere('content')
+                });
+            })
             ->latest()
             ->get();
 
         return Inertia::render('Dashboard', [
             'posts' => $posts,
+            'categories' => \App\Models\Category::select('id', 'name')->get(),
+            'query' => $query,
+            'auth' => ['user' => auth()->user()],
+            'footerCategories' => CategoryController::all(),
         ]);
     }
+
 }
