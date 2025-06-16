@@ -5,6 +5,7 @@ import { useDarkMode } from '@/Composables/useDarkMode'
 import { Moon, Sun } from 'lucide-vue-next'
 import Dropdown from '@/Components/Dropdown.vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
+import SearchBar from '@/Components/SearchBar.vue'
 
 const { props } = usePage()
 const user = props.auth?.user
@@ -72,12 +73,8 @@ function logout() {
 
             <!-- Desktop Actions -->
             <div class="hidden md:flex items-center space-x-3">
-                <input
-                    type="text"
-                    v-model="search"
-                    placeholder="Search..."
-                    class="px-3 py-1.5 rounded-md border border-gray-300 bg-white text-sm text-gray-800 placeholder:text-gray-400 dark:bg-gray-800 dark:text-white dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
-                />
+                <SearchBar />
+
 
                 <button @click="toggleDarkMode" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                         aria-label="Toggle dark mode">
