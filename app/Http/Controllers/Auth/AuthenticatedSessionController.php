@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Category;
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -21,6 +23,8 @@ class AuthenticatedSessionController extends Controller
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'auth' => Auth::user()?->only(['id', 'name', 'email']),
+            'footerCategories' => Category::all(),
         ]);
     }
 

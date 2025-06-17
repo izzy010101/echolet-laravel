@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -32,7 +33,7 @@ class PostController extends Controller
             'posts' => $posts->skip(1)->values(),
             'categories' => $categories,
             'searchQuery' => $query,
-            'auth' => ['user' => auth()->user()],
+            'auth' => ['user' => Auth::user()],
             'footerCategories' => Category::all(),
         ]);
     }
@@ -41,7 +42,8 @@ class PostController extends Controller
     private function sharedProps(array $props): array
     {
         return array_merge($props, [
-            'auth' => ['user' => auth()->user()],
+            'auth' => auth()->user()?->only(['id', 'name', 'email']),
+            'footerCategories' => Category::all(),
         ]);
     }
 

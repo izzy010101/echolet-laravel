@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -33,6 +34,7 @@ class BlogController extends Controller
             'categories' => Category::all(),
             'searchQuery' => $query,
             'selectedCategory' => $category,
+            'auth' => ['user' => Auth::user()],
             'footerCategories' => Category::all(),
         ]);
     }

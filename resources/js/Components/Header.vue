@@ -9,11 +9,11 @@ import SearchBar from '@/Components/SearchBar.vue'
 
 const { url } = usePage()
 
-const props = defineProps({
+const { auth } = defineProps({
     auth: Object,
 })
 
-const user = props.auth;
+const user = auth?.user;
 const search = ref('')
 
 const { isDark, toggleDarkMode } = useDarkMode()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -20,7 +21,7 @@ class CategoryController extends Controller
         }])->get();
 
         return Inertia::render('Categories/Index', [
-            'auth' => auth()->user(),
+            'auth' => ['user' => Auth::user()],
             'categories' => $categories,
             'searchQuery' => $query,
             'allCategories' => Category::all(), // for left-side nav
@@ -33,7 +34,7 @@ class CategoryController extends Controller
         $category = Category::with('posts')->findOrFail($id);
 
         return Inertia::render('Categories/Show', [
-            'auth' => auth()->user(),
+            'auth' => ['user' => Auth::user()],
             'category' => $category,
             'posts' => $category->posts,
             'categories' => Category::all(),

@@ -3,7 +3,8 @@ import AppLayout from '@/Layouts/AppLayout.vue'
 import { Head } from '@inertiajs/vue3'
 
 defineProps({
-    auth: Object
+    auth: Object,
+    footerCategories: Array,
 })
 </script>
 

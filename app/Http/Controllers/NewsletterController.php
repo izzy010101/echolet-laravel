@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Jobs\SendNewsletterWelcome;
-use Inertia\Inertia;
+
 
 class NewsletterController extends Controller
 {

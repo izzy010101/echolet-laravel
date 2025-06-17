@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Post;
 use App\Models\Category;
@@ -30,7 +29,7 @@ class DashboardController extends Controller
             'posts' => $posts,
             'categories' => Category::select('id', 'name')->get(),
             'query' => $query,
-            'auth' => auth()->user(),
+            'auth' => ['user' => auth()->user()],
             'footerCategories' => Category::all(),
         ]);
     }

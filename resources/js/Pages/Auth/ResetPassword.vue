@@ -1,5 +1,5 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -10,6 +10,8 @@ import { Lock } from 'lucide-vue-next';
 const props = defineProps({
     email: { type: String, required: true },
     token: { type: String, required: true },
+    auth: Object,
+    footerCategories: Array,
 });
 
 const form = useForm({
@@ -27,16 +29,15 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Reset Password"/>
+    <AppLayout :auth="auth" :footer-categories="footerCategories">
+        <Head title="Reset Password" />
 
-        <div
-                class="w-full max-w-md bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8 space-y-6">
+        <div class="mt-24 mb-16 flex justify-center">
+            <div class="w-full max-w-md bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8 space-y-6">
                 <!-- Icon & Heading -->
                 <div class="text-center">
-                    <div
-                        class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-rose-400 rounded-2xl mb-4 shadow-lg">
-                        <Lock class="w-8 h-8 text-white"/>
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-rose-400 rounded-2xl mb-4 shadow-lg">
+                        <Lock class="w-8 h-8 text-white" />
                     </div>
                     <h1 class="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
                         Reset Your Password
@@ -48,44 +49,41 @@ const submit = () => {
                 <form @submit.prevent="submit" class="space-y-5">
                     <!-- Email -->
                     <div>
-                        <InputLabel for="email" value="Email" class="text-gray-700"/>
+                        <InputLabel for="email" value="Email" class="text-gray-700" />
                         <TextInput
                             id="email"
                             type="email"
                             class="mt-1 block w-full rounded-xl bg-gray-50/50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-white dark:text-gray-900 dark:border-gray-200"
                             v-model="form.email"
-                            required
                             autocomplete="username"
                         />
-                        <InputError class="mt-2" :message="form.errors.email"/>
+                        <InputError class="mt-2" :message="form.errors.email" />
                     </div>
 
                     <!-- Password -->
                     <div>
-                        <InputLabel for="password" value="Password" class="text-gray-700"/>
+                        <InputLabel for="password" value="Password" class="text-gray-700" />
                         <TextInput
                             id="password"
                             type="password"
                             class="mt-1 block w-full rounded-xl bg-gray-50/50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-white dark:text-gray-900 dark:border-gray-200"
                             v-model="form.password"
-                            required
                             autocomplete="new-password"
                         />
-                        <InputError class="mt-2" :message="form.errors.password"/>
+                        <InputError class="mt-2" :message="form.errors.password" />
                     </div>
 
                     <!-- Confirm Password -->
                     <div>
-                        <InputLabel for="password_confirmation" value="Confirm Password" class="text-gray-700"/>
+                        <InputLabel for="password_confirmation" value="Confirm Password" class="text-gray-700" />
                         <TextInput
                             id="password_confirmation"
                             type="password"
                             class="mt-1 block w-full rounded-xl bg-gray-50/50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-white dark:text-gray-900 dark:border-gray-200"
                             v-model="form.password_confirmation"
-                            required
                             autocomplete="new-password"
                         />
-                        <InputError class="mt-2" :message="form.errors.password_confirmation"/>
+                        <InputError class="mt-2" :message="form.errors.password_confirmation" />
                     </div>
 
                     <!-- Submit -->
@@ -98,7 +96,8 @@ const submit = () => {
                     </PrimaryButton>
                 </form>
             </div>
-    </GuestLayout>
+        </div>
+    </AppLayout>
 </template>
 
 <style scoped>

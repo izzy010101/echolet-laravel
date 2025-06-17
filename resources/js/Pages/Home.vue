@@ -6,14 +6,15 @@ import NoResults from '@/Components/NoResults.vue'
 const props = defineProps({
     featured: Object,
     posts: Array,
-    auth: Object
+    auth: Object,
+    footerCategories: Array,
 })
 </script>
 
 <template>
     <Head title="Home" />
 
-    <AppLayout :auth="auth">
+    <AppLayout :auth="auth" :footer-categories="footerCategories">
         <section class="py-16 lg:py-24">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Title -->

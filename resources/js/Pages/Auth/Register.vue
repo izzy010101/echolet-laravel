@@ -1,13 +1,15 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { User, Mail, Lock, LogIn } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
 
-
-
+defineProps({
+    auth: Object,
+    footerCategories: Array,
+});
 
 const form = useForm({
     name: '',
@@ -19,17 +21,13 @@ const form = useForm({
 const validationErrors = ref({});
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-watch(
-    () => form.email,
-    (newVal) => {
-        if (newVal && !emailRegex.test(newVal)) {
-            form.errors.email = 'Please enter a valid email address.';
-        } else {
-            form.errors.email = '';
-        }
-    },
-    { immediate: true }
-);
+watch(() => form.email, (newVal) => {
+    if (newVal && !emailRegex.test(newVal)) {
+        form.errors.email = 'Please enter a valid email address.';
+    } else {
+        form.errors.email = '';
+    }
+}, { immediate: true });
 
 watch(() => form.data(), () => {
     validationErrors.value = form.errors;
@@ -43,8 +41,10 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <AppLayout :auth="auth" :footer-categories="footerCategories">
         <Head title="Register" />
+
+        <div class="flex justify-center items-center min-h-[80vh] px-4 mt-24 mb-16">
             <div class="w-full max-w-md space-y-6">
                 <!-- Title -->
                 <div class="text-center">
@@ -112,7 +112,7 @@ const submit = () => {
                             <InputError class="mt-2" :message="form.errors.password" />
                         </div>
 
-                        <!-- Password Confirmation -->
+                        <!-- Confirm Password -->
                         <div>
                             <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
                                 <Lock class="w-4 h-4 text-purple-500" />
@@ -135,10 +135,10 @@ const submit = () => {
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
                         >
-                            <span class="flex items-center justify-center gap-2">
-                                <LogIn class="w-5 h-5" />
-                                Sign Up
-                            </span>
+                      <span class="flex items-center justify-center gap-2">
+                        <LogIn class="w-5 h-5" />
+                        Sign Up
+                      </span>
                         </PrimaryButton>
                     </form>
 
@@ -149,7 +149,8 @@ const submit = () => {
                     </p>
                 </div>
             </div>
-    </GuestLayout>
+        </div>
+    </AppLayout>
 </template>
 
 <style scoped>

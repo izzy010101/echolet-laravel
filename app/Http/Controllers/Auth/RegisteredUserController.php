@@ -15,6 +15,7 @@ use Inertia\Response;
 use App\Mail\WelcomeRegisteredUserMail;
 use Illuminate\Support\Facades\Mail;
 
+
 class RegisteredUserController extends Controller
 {
     /**
