@@ -9,6 +9,7 @@
     const props = defineProps({
         posts: Array,
         categories: Array,
+        footerCategories: Array,
         auth: Object,
     });
 

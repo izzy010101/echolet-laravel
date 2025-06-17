@@ -6,7 +6,7 @@ import AppLayout from '@/Layouts/AppLayout.vue'
 const props = defineProps({
     auth: Object,
     categories: Array,
-    allCategories: Array,
+    footerCategories: Array,
     searchQuery: String,
 })
 
@@ -21,7 +21,7 @@ function selectCategory(index) {
 <template>
     <Head title="Categories"/>
 
-    <AppLayout :auth="auth" :categories="allCategories">
+    <AppLayout :auth="auth" :footer-categories="footerCategories">
         <main class="max-w-7xl mx-auto px-4 py-20 flex gap-10">
             <!-- Left Column: Category List -->
             <nav class="w-1/3 overflow-y-auto max-h-[80vh] border-r border-gray-300 dark:border-gray-700 pr-4">

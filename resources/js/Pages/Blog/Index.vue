@@ -6,6 +6,7 @@ defineProps({
     auth: Object,
     posts: Array,
     categories: Array,
+    footerCategories: Array,
     searchQuery: String,
     selectedCategory: String
 })
@@ -13,7 +14,7 @@ defineProps({
 
 <template>
     <Head title="Blog" />
-    <AppLayout :auth="auth" :categories="categories">
+    <AppLayout :auth="auth" :footer-categories="footerCategories">
         <div class="max-w-7xl mx-auto py-16 px-6">
 
             <!-- Hero -->
