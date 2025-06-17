@@ -13,7 +13,7 @@ const props = defineProps({
     auth: Object,
 })
 
-const user = props.auth
+const user = props.auth;
 const search = ref('')
 
 const { isDark, toggleDarkMode } = useDarkMode()

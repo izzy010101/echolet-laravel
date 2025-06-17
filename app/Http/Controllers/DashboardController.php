@@ -30,7 +30,7 @@ class DashboardController extends Controller
             'posts' => $posts,
             'categories' => Category::select('id', 'name')->get(),
             'query' => $query,
-            'auth' => ['user' => auth()->user()],
+            'auth' => auth()->user(),
             'footerCategories' => Category::all(),
         ]);
     }
