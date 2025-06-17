@@ -7,8 +7,13 @@ import Dropdown from '@/Components/Dropdown.vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
 import SearchBar from '@/Components/SearchBar.vue'
 
-const { props, url } = usePage()
-const user = props.auth?.user
+const { url } = usePage()
+
+const props = defineProps({
+    auth: Object,
+})
+
+const user = props.auth
 const search = ref('')
 
 const { isDark, toggleDarkMode } = useDarkMode()

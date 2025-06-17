@@ -12,7 +12,12 @@ class CategoryController extends Controller
     {
         $query = $request->input('q');
 
-        $categories = Category::with('posts')->get(); // or filtered logic
+        $categories = Category::with(['posts' => function ($q) use ($query) {
+            if ($query) {
+                $q->where('title', 'like', "%$query%")
+                    ->orWhere('excerpt', 'like', "%$query%");
+            }
+        }])->get();
 
         return Inertia::render('Categories/Index', [
             'auth' => auth()->user(),

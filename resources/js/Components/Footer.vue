@@ -3,7 +3,7 @@ import { BookOpen, Facebook, Twitter, Instagram, Linkedin } from 'lucide-vue-nex
 import { Link } from '@inertiajs/vue3'
 import NewsletterSubscribe from '@/Components/NewsletterSubscribe.vue'
 
-defineProps({
+const props = defineProps({
     categories: {
         type: Array,
         default: () => []
@@ -49,8 +49,8 @@ defineProps({
                 <div>
                     <h3 class="text-sm font-semibold text-black dark:text-white uppercase mb-3">Categories</h3>
                     <ul class="space-y-1">
-                        <li v-if="categories.length === 0" class="text-sm italic text-gray-400">No categories available.</li>
-                        <li v-for="category in categories" :key="category.id">
+                        <li v-if="props.categories.length === 0" class="italic text-gray-400">No categories available.</li>
+                        <li v-for="category in props.categories" :key="category.id">
                             <Link :href="route('categories.show', category.id)" class="hover:text-pink-500 dark:hover:text-pink-400">
                                 {{ category.name }}
                             </Link>

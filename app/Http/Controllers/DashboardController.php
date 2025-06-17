@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Post;
+use App\Models\Category;
 
 class DashboardController extends Controller
 {
@@ -13,7 +14,7 @@ class DashboardController extends Controller
     {
         $query = $request->input('q');
 
-        $posts = \App\Models\Post::where('user_id', auth()->id())
+        $posts = Post::where('user_id', auth()->id())
             ->with('category')
             ->when($query, function ($q) use ($query) {
                 $q->where(function ($subquery) use ($query) {
@@ -27,10 +28,10 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard', [
             'posts' => $posts,
-            'categories' => \App\Models\Category::select('id', 'name')->get(),
+            'categories' => Category::select('id', 'name')->get(),
             'query' => $query,
             'auth' => ['user' => auth()->user()],
-            'footerCategories' => CategoryController::all(),
+            'footerCategories' => Category::all(),
         ]);
     }
 
