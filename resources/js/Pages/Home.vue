@@ -78,8 +78,8 @@ const props = defineProps({
                     </div>
                 </div>
 
-                <!-- No Results Fallback -->
-                <NoResults v-else />
+                <!-- No Results Card  -->
+                <NoResults v-if="!featured && posts.length === 0" />
             </div>
         </section>
     </AppLayout>
