@@ -13,21 +13,27 @@ class CategoryController extends Controller
     {
         $query = $request->input('q');
 
-        $categories = Category::with(['posts' => function ($q) use ($query) {
-            if ($query) {
-                $q->where('title', 'like', "%$query%")
-                    ->orWhere('excerpt', 'like', "%$query%");
-            }
-        }])->get();
+        // Get all categories with ALL posts (no post filtering)
+        $categories = Category::with('posts')->get();
+
+        // Try to match query to a category name (case-insensitive)
+        $matchedIndex = null;
+        if ($query) {
+            $matchedIndex = $categories->search(function ($cat) use ($query) {
+                return strtolower($cat->name) === strtolower($query);
+            });
+        }
 
         return Inertia::render('Categories/Index', [
             'auth' => ['user' => Auth::user()],
             'categories' => $categories,
             'searchQuery' => $query,
-            'allCategories' => Category::all(), // for left-side nav
+            'matchedIndex' => $matchedIndex,
             'footerCategories' => Category::all(),
         ]);
     }
+
+
 
     public function show($id)
     {

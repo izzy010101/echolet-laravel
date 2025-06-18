@@ -8,9 +8,10 @@ const props = defineProps({
     categories: Array,
     footerCategories: Array,
     searchQuery: String,
+    matchedIndex: Number,
 })
 
-const currentIndex = ref(0)
+const currentIndex = ref(props.matchedIndex ?? 0)
 const currentCategory = computed(() => props.categories[currentIndex.value] || null)
 
 function selectCategory(index) {
