@@ -25,7 +25,11 @@ const user = props.auth?.user
                 <h2 class="text-2xl font-semibold mb-4">Comments</h2>
 
                 <div v-if="comments.length > 0">
-                    <CommentsSection :comments="comments" :post-id="post.id" :auth="auth"/>
+                    <CommentsSection
+                        :comments="comments"
+                        :post-id="post.id"
+                        :user="user"
+                    />
                 </div>
 
                 <div

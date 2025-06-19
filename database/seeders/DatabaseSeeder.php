@@ -27,6 +27,11 @@ class DatabaseSeeder extends Seeder
         Post::factory(10)->create([
             'user_id' => $user->id,
         ]);
+
+        //seeder for comments
+        $this->call([
+            CommentSeeder::class,
+        ]);
     }
 
 }

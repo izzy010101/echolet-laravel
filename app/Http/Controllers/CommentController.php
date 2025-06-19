@@ -11,20 +11,21 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'body' => 'required|string',
+            'content' => 'required|string',
             'post_id' => 'required|exists:posts,id',
             'parent_id' => 'nullable|exists:comments,id',
         ]);
 
-        $comment = Comment::create([
-            'body' => $validated['body'],
+        Comment::create([
+            'content' => $validated['content'], //not 'body'
             'user_id' => auth()->id(),
             'post_id' => $validated['post_id'],
             'parent_id' => $validated['parent_id'] ?? null,
         ]);
 
-        return Inertia::location(route('posts.show', $request->post_id));
+        return back()->with('success', 'Comment posted.');
     }
+
 
     public function destroy(Comment $comment)
     {

@@ -1,32 +1,32 @@
-<!-- resources/js/Components/CommentsSection.vue -->
 <script setup>
-import CommentItem from './CommentItem.vue';
-import CommentForm from "./CommentForm.vue";
+import CommentItem from './CommentItem.vue'
+import CommentForm from './CommentForm.vue'
 
 const props = defineProps({
     comments: Array,
     postId: Number,
-    auth: Object,
-    footerCategories: Array,
-});
+    user: Object,
+})
 </script>
 
 <template>
     <div class="space-y-6">
-        <h2 class="text-xl font-semibold mb-2">Comments</h2>
+        <h2 class="text-xl font-semibold mb-4">Comments</h2>
+
+        <!-- Show comment form only if user is logged in -->
         <CommentForm
-            v-if="auth"
+            v-if="user"
             :post-id="postId"
-            :auth="auth"
-            @submitted="fetchComments"
+            :user="user"
         />
 
+        <!-- List all top-level comments -->
         <CommentItem
             v-for="comment in comments"
             :key="comment.id"
             :comment="comment"
             :post-id="postId"
-            :auth="auth"
+            :user="user"
         />
     </div>
 </template>
