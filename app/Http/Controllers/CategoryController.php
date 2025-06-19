@@ -29,7 +29,7 @@ class CategoryController extends Controller
             'categories' => $categories,
             'searchQuery' => $query,
             'matchedIndex' => $matchedIndex,
-            'footerCategories' => Category::all(),
+//            'footerCategories' => Category::all(),
         ]);
     }
 

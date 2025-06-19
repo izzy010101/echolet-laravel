@@ -9,7 +9,7 @@ import SearchBar from '@/Components/SearchBar.vue'
 
 const pageProps = usePage().props
 const user = pageProps.auth?.user ?? null
-const currentPage = pageProps.page ?? ''
+const routeName = usePage().component // e.g., 'Contact', 'Posts/Show', etc.
 
 const search = ref('')
 const mobileMenuOpen = ref(false)
@@ -53,7 +53,7 @@ function logout() {
 
             <!-- Desktop Actions -->
             <div class="hidden md:flex items-center space-x-3">
-                <SearchBar v-if="currentPage !== 'contact' && currentPage !== 'post'" />
+                <SearchBar v-if="!['Contact', 'Posts/Show'].includes(routeName)" />
 
                 <button @click="toggleDarkMode" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition" aria-label="Toggle dark mode">
                     <Sun v-if="isDark" class="w-5 h-5 text-yellow-400" />
@@ -88,25 +88,46 @@ function logout() {
         <div v-if="mobileMenuOpen" class="md:hidden px-4 pb-4 space-y-2 bg-white dark:bg-gray-900 shadow">
             <div class="flex justify-end">
                 <button @click="toggleDarkMode" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-                    <Sun v-if="isDark" class="w-5 h-5 text-yellow-400" />
-                    <Moon v-else class="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                    <Sun v-if="isDark" class="w-5 h-5 text-yellow-400"/>
+                    <Moon v-else class="w-5 h-5 text-gray-600 dark:text-gray-300"/>
                 </button>
             </div>
 
-            <Link href="/" class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Home</Link>
-            <Link href="/blog" class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Blog</Link>
-            <Link href="/categories" class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Categories</Link>
-            <Link href="/contact" class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Contact</Link>
-            <Link v-if="user" href="/dashboard" class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Dashboard</Link>
+            <Link href="/" class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">
+                Home
+            </Link>
+            <Link href="/blog"
+                  class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Blog
+            </Link>
+            <Link href="/categories"
+                  class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Categories
+            </Link>
+            <Link href="/contact"
+                  class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Contact
+            </Link>
+            <Link v-if="user" href="/dashboard"
+                  class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Dashboard
+            </Link>
 
             <template v-if="!user">
-                <Link href="/login" class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Login</Link>
-                <Link href="/register" class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Register</Link>
+                <Link href="/login"
+                      class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Login
+                </Link>
+                <Link href="/register"
+                      class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">
+                    Register
+                </Link>
             </template>
 
             <template v-else>
-                <Link :href="route('profile.edit')" class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Profile</Link>
-                <button @click="logout" class="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Logout</button>
+                <Link :href="route('profile.edit')"
+                      class="block text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">
+                    Profile
+                </Link>
+                <button @click="logout"
+                        class="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">
+                    Logout
+                </button>
             </template>
         </div>
     </header>

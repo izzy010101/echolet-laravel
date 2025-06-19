@@ -19,7 +19,7 @@ function goToCategory(name) {
 
 <template>
     <Head title="Blog"/>
-    <AppLayout :auth="auth" :footer-categories="footerCategories" page="blog">
+    <AppLayout :auth="auth" :footer-categories="footerCategories">
     <div class="max-w-7xl mx-auto py-16 px-6">
 
             <!-- Hero -->
