@@ -14,7 +14,7 @@ defineProps({
 
 <template>
     <div class="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 dark:from-gray-900 dark:to-gray-950 flex flex-col text-gray-900 dark:text-gray-100 transition-colors duration-300">
-        <Header :auth="auth" :page="page" />
+        <Header :user="auth" :page="page" />
 
         <main>
             <slot />

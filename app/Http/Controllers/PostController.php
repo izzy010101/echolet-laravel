@@ -42,7 +42,7 @@ class PostController extends Controller
     private function sharedProps(array $props): array
     {
         return array_merge($props, [
-            'auth' => auth()->user()?->only(['id', 'name', 'email']),
+            'auth' => ['user' => Auth::user()],
             'footerCategories' => Category::all(),
         ]);
     }
@@ -107,8 +107,6 @@ class PostController extends Controller
         return Inertia::render('Posts/Show', $this->sharedProps([
             'post' => $post,
             'comments' => $comments,
-            'auth' => ['user' => auth()->user()],
-            'footerCategories' => Category::all(['id', 'name']),
         ]));
     }
 
