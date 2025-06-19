@@ -11,7 +11,7 @@ defineProps({
 <template>
     <Head title="Contact" />
     <!-- Pass page flag to AppLayout so it knows not to render search bar -->
-    <AppLayout :auth="auth" :footer-categories="footerCategories" page="contact" >
+    <AppLayout :auth="auth" :footer-categories="footerCategories" page="contact">
         <div class="max-w-7xl mx-auto px-6 py-16 md:flex md:justify-between md:items-start gap-12">
 
             <!-- Left Side - Title -->

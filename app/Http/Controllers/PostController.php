@@ -91,10 +91,25 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::with('user', 'category')->findOrFail($id);
+
+        $comments = \App\Models\Comment::with([
+            'user',
+            'likes',
+            'replies.user',
+            'replies.likes',
+        ])
+            ->where('post_id', $post->id)
+            ->whereNull('parent_id')
+            ->latest()
+            ->get();
 
         return Inertia::render('Posts/Show', $this->sharedProps([
             'post' => $post,
+            'comments' => $comments,
+            'auth' => ['user' => auth()->user()],
+            'footerCategories' => Category::all(['id', 'name']),
         ]));
     }
+
 }

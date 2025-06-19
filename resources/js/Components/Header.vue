@@ -1,23 +1,24 @@
 <script setup>
 import { ref } from 'vue'
-import { Link, router, usePage } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import { useDarkMode } from '@/Composables/useDarkMode'
 import { Moon, Sun } from 'lucide-vue-next'
 import Dropdown from '@/Components/Dropdown.vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
 import SearchBar from '@/Components/SearchBar.vue'
 
-const { url } = usePage()
-
-const { auth } = defineProps({
+const { auth, page } = defineProps({
     auth: Object,
+    page: {
+        type: String,
+        default: '',
+    },
 })
 
 const user = auth?.user;
 const search = ref('')
-
-const { isDark, toggleDarkMode } = useDarkMode()
 const mobileMenuOpen = ref(false)
+const { isDark, toggleDarkMode } = useDarkMode()
 
 function logout() {
     router.post(route('logout'), {}, {
@@ -32,7 +33,6 @@ function logout() {
     <header
         class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-200 dark:bg-gray-900/90 dark:border-gray-800 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-
             <!-- Logo -->
             <Link href="/" class="text-xl font-bold text-gray-900 dark:text-white">
                 Echolet
@@ -78,8 +78,7 @@ function logout() {
 
             <!-- Desktop Actions -->
             <div class="hidden md:flex items-center space-x-3">
-                <SearchBar v-if="url !== '/contact'" />
-
+                <SearchBar v-if="page !== 'contact' && page !== 'post'"/>
 
                 <button @click="toggleDarkMode" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                         aria-label="Toggle dark mode">
@@ -105,7 +104,6 @@ function logout() {
                                 </svg>
                             </button>
                         </template>
-
                         <template #content>
                             <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
                             <button @click="logout"
@@ -159,7 +157,9 @@ function logout() {
                     Profile
                 </Link>
                 <button @click="logout"
-                        class="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">Logout</button>
+                        class="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">
+                    Logout
+                </button>
             </template>
         </div>
     </header>
