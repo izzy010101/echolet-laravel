@@ -11,8 +11,6 @@ const props = defineProps({
 
 <template>
     <div class="space-y-6">
-        <h2 class="text-xl font-semibold mb-4">Comments</h2>
-
         <!-- Show comment form only if user is logged in -->
         <CommentForm
             v-if="user"
