@@ -15,6 +15,8 @@ const showReplyForm = ref(false);
 const showEditForm = ref(false);
 const likesCount = ref(props.comment.likes_count);
 const liked = ref(props.comment.is_liked);
+const showLoginMessage = ref(false)
+
 
 // delete comment function
 function deleteComment(id) {
@@ -26,16 +28,20 @@ function deleteComment(id) {
 
 // toggle for liking the comments
 const toggleLike = async () => {
-    if (!user) return alert('Login to like comments.');
+    if (!user) {
+        showLoginMessage.value = true
+        setTimeout(() => (showLoginMessage.value = false), 3000)
+        return
+    }
 
     try {
-        const res = await axios.post(`/comments/${props.comment.id}/like`);
-        liked.value = res.data.liked;
-        likesCount.value = res.data.likes_count;
+        const res = await axios.post(`/comments/${props.comment.id}/like`)
+        liked.value = res.data.liked
+        likesCount.value = res.data.likes_count
     } catch (e) {
-        console.error('Like failed:', e.response?.data || e.message);
+        console.error('Like failed:', e)
     }
-};
+}
 </script>
 
 <template>
@@ -79,16 +85,28 @@ const toggleLike = async () => {
                 </button>
             </template>
 
-            <!-- Like Button -->
-            <button @click="toggleLike" class="flex items-center space-x-1 text-xs">
-                <Heart
-                    class="w-4 h-4 transition hover:scale-110"
-                    :style="liked
-                    ? 'fill: rgb(239 68 68); stroke: rgb(239 68 68);'
-                    : 'fill: none; stroke: currentColor;'"
-                />
-                <span class="text-gray-700 dark:text-gray-300">{{ likesCount }}</span>
-            </button>
+            <div class="relative inline-block">
+                <!-- Like button -->
+                <button @click="toggleLike" class="flex items-center space-x-1 text-xs">
+                    <Heart
+                        :fill="liked ? 'currentColor' : 'none'"
+                        :stroke="liked ? 'rgb(239 68 68)' : 'currentColor'"
+                        :class="[
+                        'w-4 h-4 transition hover:scale-110',
+                        liked ? 'text-red-500' : 'text-gray-500 dark:text-gray-400'
+                      ]"
+                    />
+                    <span class="text-gray-700 dark:text-gray-300">{{ likesCount }}</span>
+                </button>
+
+                <!-- Login  to like message-->
+                <div
+                    v-if="showLoginMessage"
+                    class="absolute top-6 left-4 text-xs bg-pink-100 text-pink-700 px-3 py-1 rounded shadow border border-pink-200 whitespace-nowrap"
+                >
+                    Please log in to like comments.
+                </div>
+            </div>
         </div>
 
         <CommentForm
