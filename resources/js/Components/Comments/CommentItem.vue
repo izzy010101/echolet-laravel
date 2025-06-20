@@ -30,11 +30,10 @@ const toggleLike = async () => {
 
     try {
         const res = await axios.post(`/comments/${props.comment.id}/like`);
-        console.log('✅ Like toggled:', res.data);
         liked.value = res.data.liked;
         likesCount.value = res.data.likes_count;
     } catch (e) {
-        console.error('❌ Like failed:', e.response?.data || e.message);
+        console.error('Like failed:', e.response?.data || e.message);
     }
 };
 </script>

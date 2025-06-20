@@ -68,7 +68,8 @@ class PostController extends Controller
         return redirect()->route('dashboard')->with('success', 'Post created!');
     }
 
-    public function update(Request $request, Post $post) {
+    public function update(Request $request, Post $post)
+    {
 
         $validated = $request->validate([
             'title' => 'required|string|min:3|max:255',
@@ -106,8 +107,26 @@ class PostController extends Controller
 
         return Inertia::render('Posts/Show', $this->sharedProps([
             'post' => $post,
-            'comments' => $comments,
+            'comments' => $comments->map(function ($comment) {
+                return [
+                    'id' => $comment->id,
+                    'content' => $comment->content,
+                    'user' => $comment->user->only(['id', 'name']),
+                    'likes_count' => $comment->likes->count(),
+                    'is_liked' => auth()->check() ? $comment->likes->contains('user_id', auth()->id()) : false,
+                    'replies' => $comment->replies->map(function ($reply) {
+                        return [
+                            'id' => $reply->id,
+                            'content' => $reply->content,
+                            'user' => $reply->user->only(['id', 'name']),
+                            'likes_count' => $reply->likes->count(),
+                            'is_liked' => auth()->check() ? $reply->likes->contains('user_id', auth()->id()) : false,
+                        ];
+                    }),
+                ];
+            }),
         ]));
-    }
 
+
+    }
 }
