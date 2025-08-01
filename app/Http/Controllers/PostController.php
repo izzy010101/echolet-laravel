@@ -94,11 +94,14 @@ class PostController extends Controller
     {
         $post = Post::with('user', 'category')->findOrFail($id);
 
+        // Load all comments with nested replies & likes
         $comments = \App\Models\Comment::with([
             'user',
             'likes',
             'replies.user',
             'replies.likes',
+            'replies.replies.user',    // recursively load deeper replies
+            'replies.replies.likes',
         ])
             ->where('post_id', $post->id)
             ->whereNull('parent_id')
@@ -107,26 +110,21 @@ class PostController extends Controller
 
         return Inertia::render('Posts/Show', $this->sharedProps([
             'post' => $post,
-            'comments' => $comments->map(function ($comment) {
-                return [
-                    'id' => $comment->id,
-                    'content' => $comment->content,
-                    'user' => $comment->user->only(['id', 'name']),
-                    'likes_count' => $comment->likes->count(),
-                    'is_liked' => auth()->check() ? $comment->likes->contains('user_id', auth()->id()) : false,
-                    'replies' => $comment->replies->map(function ($reply) {
-                        return [
-                            'id' => $reply->id,
-                            'content' => $reply->content,
-                            'user' => $reply->user->only(['id', 'name']),
-                            'likes_count' => $reply->likes->count(),
-                            'is_liked' => auth()->check() ? $reply->likes->contains('user_id', auth()->id()) : false,
-                        ];
-                    }),
-                ];
-            }),
+            'comments' => $comments->map(fn($comment) => $this->transformComment($comment)),
         ]));
-
-
     }
+
+    private function transformComment($comment)
+    {
+        return [
+            'id' => $comment->id,
+            'content' => $comment->content,
+            'user' => $comment->user->only(['id', 'name']),
+            'likes_count' => $comment->likes->count(),
+            'is_liked' => auth()->check() ? $comment->likes->contains('user_id', auth()->id()) : false,
+            // Recursively transform replies
+            'replies' => $comment->replies->map(fn($reply) => $this->transformComment($reply)),
+        ];
+    }
+
 }
