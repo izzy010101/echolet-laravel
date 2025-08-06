@@ -2,6 +2,9 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default defineConfig({
     plugins: [
@@ -20,13 +23,23 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, 'resources/js'), // for using @ in paths
+            '@': path.resolve(__dirname, 'resources/js'),
         },
     },
     define: {
-        'process.env': {}, // Fixes some Vue3 warnings
+        'process.env': {},
     },
     esbuild: {
-        legalComments: 'none', // helps prevent inline eval usage errors 
+        legalComments: 'none',
+    },
+    server: {
+        host: '0.0.0.0', // necessary for Docker
+        port: 5173,
+        strictPort: true,
+        hmr: {
+            host: 'localhost', // <--- this is what the browser connects to
+            protocol: 'ws',
+            port: 5173,
+        },
     },
 });
