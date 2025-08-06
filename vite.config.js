@@ -33,11 +33,11 @@ export default defineConfig({
         legalComments: 'none',
     },
     server: {
-        host: '0.0.0.0', // necessary for Docker
+        host: '0.0.0.0',
         port: 5173,
         strictPort: true,
         hmr: {
-            host: 'localhost', // <--- this is what the browser connects to
+            host: 'localhost',
             protocol: 'ws',
             port: 5173,
         },
