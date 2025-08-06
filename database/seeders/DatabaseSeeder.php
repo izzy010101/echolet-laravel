@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
 
         // Then create posts (now categories exist!)
-        Post::factory(10)->create([
+        Post::factory(1000)->create([
             'user_id' => $user->id,
         ]);
 
